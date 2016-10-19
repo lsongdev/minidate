@@ -1,6 +1,6 @@
 {
-  "name": "date.js",
-  "version": "1.0.0",
+  "name": "date2.js",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js"
@@ -9,14 +9,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/song940/date.js.git"
+    "url": "git+https://github.com/song940/date2.git"
   },
   "keywords": [
     "date"
   ],
   "bugs": {
-    "url": "https://github.com/song940/date.js/issues"
+    "url": "https://github.com/song940/date2/issues"
   },
-  "homepage": "https://github.com/song940/date.js#readme",
-  "description": ""
+  "homepage": "https://github.com/song940/date2#readme",
+  "description": "new Date2();",
+  "directories": {
+    "test": "test"
+  }
 }

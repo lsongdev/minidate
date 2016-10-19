@@ -1,15 +1,18 @@
-## date.js ![NPM version](https://img.shields.io/npm/v/date.js.svg?style=flat)
-
-
+## Date2 ![NPM version](https://img.shields.io/npm/v/date2.js.svg?style=flat)
 
 ### Installation
+
 ```bash
-$ npm install date.js
+$ npm install date2.js --save
 ```
 
 ### Example
 ```js
-var date.js = require('date.js');
+const Date2 = require('date2.js');
+
+var date = new Date2();
+
+date.toString('yyyy-MM-dd HH:mm:ss');
 ```
 
 ### API
@@ -47,5 +50,3 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ---
-![docor]()
-built upon love by [docor](git+https://github.com/turingou/docor.git) v0.3.0
