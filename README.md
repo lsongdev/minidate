@@ -1,18 +1,25 @@
-## Date2 ![NPM version](https://img.shields.io/npm/v/date2.js.svg?style=flat)
+## minidate
+
+> Minimal Date Library for JavaScript and Node.js
+
+![NPM version](https://img.shields.io/npm/v/minidate.svg?style=flat)
+[![Build Status](https://travis-ci.org/song940/minidate.svg?branch=master)](https://travis-ci.org/song940/minidate)
 
 ### Installation
 
 ```bash
-$ npm install date2.js --save
+$ npm install minidate --save
 ```
 
 ### Example
 ```js
-const Date2 = require('date2.js');
+const minidate = require('minidate');
 
-var date = new Date2();
-
-date.toString('yyyy-MM-dd HH:mm:ss');
+console.log(
+  minidate('2020-02-28')
+  .addDays(1)
+  .toString('yyyy-MM-dd')
+);
 ```
 
 ### API

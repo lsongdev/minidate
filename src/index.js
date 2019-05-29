@@ -5,26 +5,88 @@
 function Date2(options){
   if(!(this instanceof Date2))
     return new Date2(options);
-  
-  switch (typeof options) {
-    case 'number':
-      this.date = new Date(options);
-      break;
+  this.date = Date2.from(options);
+  return this;
+};
+
+/**
+ * create date from string
+ */
+Date2.from = function(o, utc){
+  var date;
+  var type = typeof o;
+  if(o === null)
+    type = 'null';
+  if(o instanceof Date) 
+    type = 'date';
+  switch (type) {
     case 'string':
-      this.date = this.parse(options);
+      date = Date2.parse(o);
+      break;
+    case 'number':
+      date = new Date(o);
       break;
     case 'object':
-      if(options instanceof Date){
-        this.date = options;
-      }else{
-        this.date = this.create(options);
-      }
+      utc = utc ? 'UTC' : '';
+      date = new Date(0);
+      if(o.year   !== undefined) date['set' + utc + 'Year'    ](+o.year     );
+      if(o.date   !== undefined) date['set' + utc + 'Date'    ](+o.date     );
+      if(o.month  !== undefined) date['set' + utc + 'Month'   ](+o.month - 1);
+      if(o.hour   !== undefined) date['set' + utc + 'Hours'   ](+o.hour     );
+      if(o.minute !== undefined) date['set' + utc + 'Minutes' ](+o.minute   );
+      if(o.second !== undefined) date['set' + utc + 'Seconds' ](+o.second   );
       break;
+    case 'null':
+    case 'undefined':
+      date = new Date();
+      break
     default:
-      this.date = new Date(options || null);
+      date = new Date(o);
       break;
   }
-      
+  return date;
+};
+
+/**
+ * [parse description]
+ * @param  {[type]} str     [description]
+ * @param  {[type]} options [description]
+ * @return {[type]}         [description]
+ */
+Date2.parse = function(str){
+  var obj = {}, map = {
+    fullYear: 1,
+    year: 2,
+    month:3,
+    date:4,
+    time: 5,
+    hour: 6,
+    minute: 7,
+    second: 8
+  };
+  var r1 = /((\d{4})-(\d{2})-(\d{2}))?\s?((\d{2}):(\d{2}):(\d{2}))?/;
+  if(~str.indexOf('GMT')) { // GMT Date: Wed, 29 May 2019 05:53:32 GMT
+    var a = str.split(/\W\D?/);
+    obj.year = a[3];
+    obj.month = "xxanebarprayunulugepctovec".indexOf(a[2]) / 2;
+    obj.date = a[1];
+    obj.hour = a[4];
+    obj.minute = a[5];
+    obj.second = a[6];
+    var timezone = a[8];
+  } else if(~str.indexOf('T')){ // ISO Date: 2019-03-28T18:57:14.149Z
+    // TODO:
+    return new Date(str);
+  } else if(r1.test(str)) { // eg: 2019-05-29 10:32:29
+    var matchs = r1.exec(str);
+    for(var key in map){
+      obj[ key ] = matchs[ map[ key ] ];
+    }
+  } else {
+    // TODO:
+    return Date(str);
+  }
+  return Date2.from(obj);
 };
 
 /**
@@ -32,7 +94,7 @@ function Date2(options){
  * @return {[type]} [description]
  */
 Date2.prototype.now = function(){
-  return +this.date;
+  return Date.now();
 };
 
 Date2.TIME_AGO = {
@@ -83,43 +145,26 @@ Date2.prototype.ago = function(){
   ) + Date2.TIME_AGO.suffix;
 };
 
-/**
- * [parse description]
- * @param  {[type]} str     [description]
- * @param  {[type]} options [description]
- * @return {[type]}         [description]
- */
-Date2.prototype.parse = function(str, options){
-  var obj = {}, map = {
-    fullYear: 1,
-    year: 2,
-    month:3,
-    date:4,
-    time: 5,
-    hour: 6,
-    minute: 7,
-    second: 8
-  };
-  var matchs = /((\d{4})-(\d{2})-(\d{2}))?\s?((\d{2}):(\d{2}):(\d{2}))?/.exec(str);
-  for(var key in map){
-    obj[ key ] = matchs[ map[ key ] ];
-  }
-  return this.create(obj);
+Date2.prototype.offset = function(offset){
+  var timestamp = +this.date;
+  this.date = new Date(timestamp + offset);
+  return this;
 };
-/**
- * [create description]
- * @param  {[type]} options [description]
- * @return {[type]}         [description]
- */
-Date2.prototype.create = function(options){
-  var date = new Date;
-  date.setYear   (+options.year     );
-  date.setMonth  (+options.month - 1);
-  date.setDate   (+options.date     );
-  date.setHours  (+options.hour     );
-  date.setMinutes(+options.minute   );
-  date.setSeconds(+options.second   );
-  return date;
+
+Date2.prototype.addSeconds = function(second){
+  return this.offset(second * 1000);
+};
+
+Date2.prototype.addMinutes = function(minute){
+  return this.addSeconds(minute * 60);
+};
+
+Date2.prototype.addHours = function(hour){
+  return this.addMinutes(hour * 60);
+}
+
+Date2.prototype.addDays = function(day){
+  return this.addHours(day * 24);
 };
 
 /**
