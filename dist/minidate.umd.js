@@ -1,1 +1,192 @@
-!function(t){"function"==typeof define&&define.amd?define(t):t()}(function(){"use strict";function t(e){return this instanceof t?(this.date=t.from(e),this):new t(e)}t.from=function(e,n){var a,o=typeof e;switch(null===e&&(o="null"),e instanceof Date&&(o="date"),o){case"string":a=t.parse(e);break;case"number":a=new Date(e);break;case"object":n=n?"UTC":"",a=new Date(0),void 0!==e.year&&a["set"+n+"Year"](+e.year),void 0!==e.date&&a["set"+n+"Date"](+e.date),void 0!==e.month&&a["set"+n+"Month"](+e.month-1),void 0!==e.hour&&a["set"+n+"Hours"](+e.hour),void 0!==e.minute&&a["set"+n+"Minutes"](+e.minute),void 0!==e.second&&a["set"+n+"Seconds"](+e.second);break;case"null":case"undefined":a=new Date;break;default:a=new Date(e)}return a},t.parse=function(e){var n={},a={fullYear:1,year:2,month:3,date:4,time:5,hour:6,minute:7,second:8},o=/((\d{4})-(\d{2})-(\d{2}))?\s?((\d{2}):(\d{2}):(\d{2}))?/;if(~e.indexOf("GMT")){var r=e.split(/\W\D?/);n.year=r[3],n.month="xxanebarprayunulugepctovec".indexOf(r[2])/2,n.date=r[1],n.hour=r[4],n.minute=r[5],n.second=r[6];r[8]}else{if(~e.indexOf("T"))return new Date(e);if(!o.test(e))return Date(e);var s=o.exec(e);for(var i in a)n[i]=s[a[i]]}return t.from(n)},t.prototype.now=function(){return Date.now()},t.TIME_AGO={prefix:"",suffix:" ago",seconds:"less than a minute",minute:"about a minute",minutes:"%d minutes",hour:"about an hour",hours:"about %d hours",day:"a day",days:"%d days",month:"about a month",months:"%d months",year:"about a year",years:"%d years"},t.prototype.ago=function(){function e(e,n){return n=Math.abs(Math.round(n)),t.TIME_AGO[e]&&t.TIME_AGO[e].replace(/%d/i,n)}var n=(new Date-this.date)/1e3,a=n/60,o=a/60,r=o/24,s=r/30,i=r/365;return t.TIME_AGO.prefix+(n<45&&e("seconds",n)||n<90&&e("minute",1)||a<45&&e("minutes",a)||a<90&&e("hour",1)||o<24&&e("hours",o)||o<42&&e("day",1)||r<30&&e("days",r)||r<45&&e("month",1)||r<365&&e("months",s)||i<1.5&&e("year",1)||e("years",i))+t.TIME_AGO.suffix},t.prototype.offset=function(t){var e=+this.date;return this.date=new Date(e+t),this},t.prototype.addSeconds=function(t){return this.offset(1e3*t)},t.prototype.addMinutes=function(t){return this.addSeconds(60*t)},t.prototype.addHours=function(t){return this.addMinutes(60*t)},t.prototype.addDays=function(t){return this.addHours(24*t)},t.prototype.toString=function(t){if(void 0===t)return this.date.toString();var e={"M+":this.date.getMonth()+1,"d+":this.date.getDate(),"h+":this.date.getHours()%12==0?12:this.date.getHours()%12,"H+":this.date.getHours(),"m+":this.date.getMinutes(),"s+":this.date.getSeconds(),"q+":Math.floor((this.date.getMonth()+3)/3),S:this.date.getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,(this.date.getFullYear()+"").substr(4-RegExp.$1.length)));for(var n in e)new RegExp("("+n+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?e[n]:("00"+e[n]).substr((""+e[n]).length)));return t},module.exports=t});
+/**
+ * by Lsong Copyright 2019-07-17
+ */
+
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.minidate = factory());
+}(this, function () { 'use strict';
+
+  function format(date, pattern) {
+    if (pattern === undefined)
+      return date.toString();
+    var obj = {
+      'M+': date.getMonth() + 1,
+      'd+': date.getDate(),
+      'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
+      'H+': date.getHours(),
+      'm+': date.getMinutes(),
+      's+': date.getSeconds(),
+      'q+': Math.floor((date.getMonth() + 3) / 3),
+      'S': date.getMilliseconds()
+    };
+    if (/(y+)/.test(pattern)) {
+      pattern = pattern.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in obj) {
+      if (new RegExp("(" + k + ")").test(pattern)) {
+        pattern = pattern.replace(RegExp.$1, (RegExp.$1.length == 1) ? (obj[k]) : (("00" + obj[k]).substr(("" + obj[k]).length)));
+      }
+    }
+    return pattern;
+  }
+
+  const TIME_AGO = {
+    prefix: "",
+    suffix: " ago",
+    seconds: "less than a minute",
+    minute: "about a minute",
+    minutes: "%d minutes",
+    hour: "about an hour",
+    hours: "about %d hours",
+    day: "a day",
+    days: "%d days",
+    month: "about a month",
+    months: "%d months",
+    year: "about a year",
+    years: "%d years"
+  };
+  function template(t, n) {
+    n = Math.abs(Math.round(n));
+    return TIME_AGO[t] &&
+      TIME_AGO[t].replace(/%d/i, n);
+  }function timeago(date) {
+    const diff = new Date - date;
+    const seconds = diff / 1000;
+    const minutes = seconds / 60;
+    const hours = minutes / 60;
+    const days = hours / 24;
+    const months = days / 30;
+    const years = days / 365;
+    return TIME_AGO.prefix + (
+      seconds < 45 && template('seconds', seconds) ||
+      seconds < 90 && template('minute', 1) ||
+      minutes < 45 && template('minutes', minutes) ||
+      minutes < 90 && template('hour', 1) ||
+      hours < 24 && template('hours', hours) ||
+      hours < 42 && template('day', 1) ||
+      days < 30 && template('days', days) ||
+      days < 45 && template('month', 1) ||
+      days < 365 && template('months', months) ||
+      years < 1.5 && template('year', 1) ||
+      template('years', years)
+    ) + TIME_AGO.suffix;
+  }
+
+  function from(o, utc = '') {
+    var date;
+    var type = typeof o;
+    if (o === null)
+      type = 'null';
+    if (o instanceof Date)
+      type = 'date';
+    switch (type) {
+      case 'string':
+        date = parse(o);
+        break;
+      case 'number':
+        date = new Date(o);
+        break;
+      case 'object':
+        date = new Date(0);
+        if (o.year !== undefined) date['set' + utc + 'Year'](+o.year);
+        if (o.date !== undefined) date['set' + utc + 'Date'](+o.date);
+        if (o.month !== undefined) date['set' + utc + 'Month'](+o.month - 1);
+        if (o.hour !== undefined) date['set' + utc + 'Hours'](+o.hour);
+        if (o.minute !== undefined) date['set' + utc + 'Minutes'](+o.minute);
+        if (o.second !== undefined) date['set' + utc + 'Seconds'](+o.second);
+        break;
+      case 'null':
+      case 'undefined':
+        date = new Date();
+        break
+      default:
+        date = new Date(o);
+        break;
+    }
+    return date;
+  }function parse(str) {
+    var obj = {}, map = {
+      fullYear: 1,
+      year: 2,
+      month: 3,
+      date: 4,
+      time: 5,
+      hour: 6,
+      minute: 7,
+      second: 8
+    };
+    var r1 = /((\d{4})-(\d{2})-(\d{2}))?\s?((\d{2}):(\d{2}):(\d{2}))?/;
+    if (~str.indexOf('GMT')) {
+      var a = str.split(/\W\D?/);
+      obj.year = a[3];
+      obj.month = "xxanebarprayunulugepctovec".indexOf(a[2]) / 2;
+      obj.date = a[1];
+      obj.hour = a[4];
+      obj.minute = a[5];
+      obj.second = a[6];
+      var timezone = a[8];
+    } else if (~str.indexOf('T')) {
+      return new Date(str);
+    } else if (r1.test(str)) {
+      var matchs = r1.exec(str);
+      for (var key in map) {
+        obj[key] = matchs[map[key]];
+      }
+    } else {
+      return Date(str);
+    }
+    return from(obj);
+  }
+
+  function offset(date, offset) {
+    const timestamp = date;
+    return new Date(timestamp + offset);
+  }function addSeconds(date, second) {
+    return offset(date, second * 1000);
+  }function addMinutes(date, minute) {
+    return addSeconds(date, minute * 60);
+  }function addHours(date, hour) {
+    return addMinutes(date, hour * 60);
+  }
+  function addDays(date, day) {
+    return addHours(date, day * 24);
+  }
+
+  function Minidate(options) {
+    if (!(this instanceof Minidate))
+      return new Minidate(options);
+    this.date = Minidate.from(options);
+    return this;
+  }
+  Minidate.from = from;
+  Minidate.parse = parse;
+  Minidate.prototype.offset = function (o) {
+    return offset(this.date, o);
+  };
+  Minidate.prototype.addDays = function (offset) {
+    return addDays(this.date, offset);
+  };
+  Minidate.prototype.addHours = function (offset) {
+    return addHours(this.date, offset);
+  };
+  Minidate.prototype.addMinutes = function (offset) {
+    return addMinutes(this.date, offset);
+  };
+  Minidate.prototype.addSeconds = function (offset) {
+    return addSeconds(this.date, offset);
+  };
+  Minidate.prototype.ago = function(){
+    return timeago(this.date);
+  };
+  Minidate.prototype.toString = function(pattern){
+    return format(this.date, pattern);
+  };
+  Minidate.prototype.now = function(){
+    return Date.now();
+  };
+
+  return Minidate;
+
+}));
