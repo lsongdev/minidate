@@ -1,4 +1,8 @@
-
+/**
+ * offset
+ * @param {*} date 
+ * @param {*} offset 
+ */
 export function offset(date, offset) {
   const timestamp = date;
   return new Date(timestamp + offset);

@@ -1,7 +1,10 @@
 /**
+ * from
  * create date from string
+ * @param {Object} o
+ * @param {Boolean} utc
  */
-export function from(o, utc = '') {
+export function from(o, utc = 'UTC') {
   var date;
   var type = typeof o;
   if (o === null)
@@ -35,10 +38,9 @@ export function from(o, utc = '') {
   return date;
 };
 /**
- * [parse description]
- * @param  {[type]} str     [description]
- * @param  {[type]} options [description]
- * @return {[type]}         [description]
+ * parse
+ * @param  {String} str
+ * @return {Date}
  */
 export function parse(str) {
   var obj = {}, map = {

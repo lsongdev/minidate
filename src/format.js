@@ -1,6 +1,7 @@
 /**
- * [toString description]
- * @return {[type]} [description]
+ * format
+ * @param {Date} date
+ * @return {String} pattern
  */
 export function format(date, pattern) {
   if (pattern === undefined)

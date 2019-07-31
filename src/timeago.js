@@ -22,8 +22,9 @@ export function template(t, n) {
 };
 
 /**
- * [ago description]
- * @return {[type]} [description]
+ * timeago
+ * @param {Date} date
+ * @return {String}
  */
 export function timeago(date) {
   const diff = new Date - date;
