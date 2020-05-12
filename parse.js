@@ -4,7 +4,7 @@
  * @param {Object} o
  * @param {Boolean} utc
  */
-export function from(o, utc = 'UTC') {
+function from(o, utc = 'UTC') {
   var date;
   var type = typeof o;
   if (o === null)
@@ -20,7 +20,7 @@ export function from(o, utc = 'UTC') {
       break;
     case 'object':
       date = new Date(0);
-      if (o.year !== undefined) date['set' + utc + 'Year'](+o.year);
+      if (o.year !== undefined) date['set' + utc + 'FullYear'](+o.year);
       if (o.date !== undefined) date['set' + utc + 'Date'](+o.date);
       if (o.month !== undefined) date['set' + utc + 'Month'](+o.month - 1);
       if (o.hour !== undefined) date['set' + utc + 'Hours'](+o.hour);
@@ -42,7 +42,7 @@ export function from(o, utc = 'UTC') {
  * @param  {String} str
  * @return {Date}
  */
-export function parse(str) {
+function parse(str) {
   var obj = {}, map = {
     fullYear: 1,
     year: 2,
@@ -76,4 +76,10 @@ export function parse(str) {
     return Date(str);
   }
   return from(obj);
+};
+
+
+module.exports = {
+  parse,
+  from,
 };

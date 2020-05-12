@@ -1,5 +1,5 @@
 
-export const TIME_AGO = {
+const TIME_AGO = {
   prefix: "",
   suffix: " ago",
   seconds: "less than a minute",
@@ -15,7 +15,7 @@ export const TIME_AGO = {
   years: "%d years"
 };
 
-export function template(t, n) {
+function template(t, n) {
   n = Math.abs(Math.round(n));
   return TIME_AGO[t] &&
     TIME_AGO[t].replace(/%d/i, n);
@@ -26,7 +26,7 @@ export function template(t, n) {
  * @param {Date} date
  * @return {String}
  */
-export function timeago(date) {
+function timeago(date) {
   const diff = new Date - date;
   const seconds = diff / 1000;
   const minutes = seconds / 60;
@@ -48,3 +48,5 @@ export function timeago(date) {
     template('years', years)
   ) + TIME_AGO.suffix;
 };
+
+module.exports = timeago;

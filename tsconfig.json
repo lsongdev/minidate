@@ -1,0 +1,19 @@
+{
+  "include": [
+    "./src/**/*"
+  ],
+  "outDir": "dist",
+  "compilerOptions": {
+    "lib": [
+      "es2015",
+      "es2016",
+      "ES5",
+      "ES6",
+      "dom",
+    ],
+    "target": "es5",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "moduleResolution": "Node"
+  }
+}

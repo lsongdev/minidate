@@ -1,12 +1,12 @@
 {
   "name": "minidate",
   "version": "0.0.1",
-  "main": "./dist/minidate.js",
+  "main": "./index.js",
+  "module": "index.js",
   "scripts": {
     "test": "node test",
-    "build:umd": "NODE_ENV=umd rollup -c",
-    "build:cjs": "NODE_ENV=cjs rollup -c",
-    "build": "npm run build:cjs && npm run build:umd",
+    "dev": "rollup -c -w",
+    "build": "rm -rf dist; rollup -c",
     "build:docs": "jsdoc -c jsdoc.json",
     "build:docs:watch": "npx nodemon --exec 'npx jsdoc -c jsdoc.json' --watch src/*.js"
   },
@@ -33,11 +33,12 @@
   },
   "homepage": "https://blog.lsong.org/minidate",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^4.1.1",
     "docdash": "^1.1.1",
     "jsdoc": "^3.6.3",
     "rollup": "^1.15.4",
-    "rollup-plugin-cleanup": "^3.1.1",
-    "rollup-plugin-license": "^0.9.0",
-    "rollup-plugin-uglify-es": "^0.0.1"
+    "rollup-plugin-dts": "^1.4.2",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3"
   }
 }
