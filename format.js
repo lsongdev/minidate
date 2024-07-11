@@ -12,7 +12,7 @@ function zeroPad(str, len = 2) {
  * @param {Date} date
  * @return {String} pattern
  */
-function format(date, pattern) {
+export function format(date, pattern) {
   const _ = {
     YYYY: () => date.getFullYear(),
     M: () => date.getMonth() + 1,
@@ -26,7 +26,3 @@ function format(date, pattern) {
   };
   return pattern.replace(/\{([^\}]+)\}/g, (x, m) => _[m] && _[m]());
 }
-
-module.exports = {
-  format
-};

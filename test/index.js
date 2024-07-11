@@ -1,6 +1,6 @@
-const test = require('./test');
-const minidate = require('..');
-const assert = require('assert');
+import assert from 'assert';
+import test from './test.js';
+import minidate from '../index.js';
 
 var date = new Date(1476885953919);
 

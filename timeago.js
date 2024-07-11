@@ -26,7 +26,7 @@ function template(t, n) {
  * @param {Date} date
  * @return {String}
  */
-function timeago(date) {
+export function timeago(date) {
   const diff = new Date - date;
   const seconds = diff / 1000;
   const minutes = seconds / 60;
@@ -48,5 +48,3 @@ function timeago(date) {
     template('years', years)
   ) + TIME_AGO.suffix;
 };
-
-module.exports = timeago;

@@ -1,23 +1,23 @@
-const { format } = require('./format');
-const { timeago } = require('./timeago');
-const { parse, from } = require('./parse');
-const {
+import { format } from './format.js';
+import { timeago } from './timeago.js';
+import { parse, from } from './parse.js';
+import {
   offset,
   addDays,
   addHours,
   addMinutes,
-  addSeconds,
-} = require('./offset');
+  addSeconds
+} from './offset.js';
 
 /**
  * Minidate
  * @class
  * @param {Object} date
  */
-function Minidate(date) {
+export function Minidate(date) {
   if (!(this instanceof Minidate))
     return new Minidate(date);
-  this.date = Minidate.from(date);
+  this.date = from(date);
   return this;
 }
 /**
@@ -75,16 +75,14 @@ Minidate.prototype.now = function () {
   return Date.now();
 };
 
-Object.assign(Minidate, {
+export {
   from,
   parse,
-  format,
   offset,
   addDays,
   addHours,
   addMinutes,
   addSeconds,
-  timeago,
-});
+};
 
-module.exports = Minidate;
+export default Minidate;

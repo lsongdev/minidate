@@ -4,7 +4,7 @@
  * @param {Object} o
  * @param {Boolean} utc
  */
-function from(o, utc = 'UTC') {
+export function from(o, utc = 'UTC') {
   var date;
   var type = typeof o;
   if (o === null)
@@ -42,7 +42,7 @@ function from(o, utc = 'UTC') {
  * @param  {String} str
  * @return {Date}
  */
-function parse(str) {
+export function parse(str) {
   var obj = {}, map = {
     fullYear: 1,
     year: 2,
@@ -76,10 +76,4 @@ function parse(str) {
     return Date(str);
   }
   return from(obj);
-};
-
-
-module.exports = {
-  parse,
-  from,
 };
